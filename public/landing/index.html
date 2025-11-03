@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARPAPED — The Universal OS</title>
+  <style>
+    :root {
+      --bg: #f4f5f7;
+      --fg: #000;
+      --glass: rgba(255,255,255,0.6);
+      --blur: blur(18px);
+      --radius: 22px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif; }
+    @media (prefers-reduced-motion: no-preference) {
+      .card { transition: transform .35s ease, box-shadow .35s ease; transform: translateY(0); }
+      .card:hover { transform: translateY(-8px) rotateZ(.2deg); box-shadow: 0 18px 55px rgba(0,0,0,0.09); }
+      .float { animation: float 6s ease-in-out infinite; }
+      @keyframes float { 0%{transform: translateY(0)} 50%{transform: translateY(-6px)} 100%{transform: translateY(0)} }
+    }
+     { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif; }
+    body { background: var(--bg); color: var(--fg); }
+    header {
+      padding: 120px 20px 90px;
+      text-align: center;
+      background: linear-gradient(180deg,#ffffff 0%,#e9ebee 100%);
+    }
+    h1 {
+      font-size: 4rem;
+      font-weight: 800;
+      letter-spacing: -2px;
+      margin-bottom: 16px;
+    }
+    h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+      text-align: center;
+    }
+    p {
+      font-size: 1.15rem;
+      line-height: 1.7;
+      max-width: 820px;
+      margin: 0 auto;
+      opacity: .85;
+    }
+    .cta {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+    }
+    .btn {
+      padding: 14px 36px;
+      font-size: 1.1rem;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      backdrop-filter: var(--blur);
+      transition: .25s;
+    }
+    .primary {
+      background: var(--fg);
+      color: #fff;
+    }
+    .primary:hover { opacity: .8; }
+    .secondary {
+      background: transparent;
+      border: 2px solid var(--fg);
+      color: var(--fg);
+    }
+    .secondary:hover { background: rgba(0,0,0,0.05); }
+    section { padding: 100px 20px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+      max-width: 1100px;
+      margin: 50px auto 0;
+    }
+    .card {
+      background: var(--glass);
+      padding: 28px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(0,0,0,0.05);
+      backdrop-filter: var(--blur);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.07);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+    footer {
+      text-align: center;
+      padding: 60px;
+      font-size: .9rem;
+      opacity: .5;
+    }
+  /* Responsive layout */
+    @media (max-width: 900px) {
+      .hero { flex-direction: column; text-align: center; gap: 32px; }
+      .hero-text { max-width: 100%; }
+      .cards { grid-template-columns: 1fr; }
+    }
+
+    /* Subtle entrance animation */
+    @keyframes fadeUp { 0%{opacity:0;transform:translateY(12px);} 100%{opacity:1;transform:translateY(0);} }
+    .hero, .card { animation: fadeUp .7s ease-out both; }
+    .card:nth-child(2) { animation-delay: .08s; }
+    .card:nth-child(3) { animation-delay: .16s; }
+    .card:nth-child(4) { animation-delay: .24s; }
+
+    /* Boot splash */
+    .splash {
+      position: fixed; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(18px);
+      color: var(--text); font-size: 28px; font-weight:600; z-index: 9999;
+      animation: splashFade 1.6s ease forwards;
+    }
+    @keyframes splashFade { 0%{opacity:1;} 75%{opacity:1;} 100%{opacity:0; pointer-events:none;} }
+</style>
+<div class="splash">ARPAPED</div>
+</head>
+<body>
+
+<header>
+  <h1>ARPAPED</h1>
+  <p>The Universal Operating Layer for the World. No limits. No platforms. One seamless digital reality.</p>
+  <div class="cta">
+    <button class="btn primary">Get Started</button>
+    <button class="btn secondary">Sign In</button>
+  </div>
+</header>
+
+<section>
+  <h2>Core Capabilities</h2>
+  <p style="text-align:center; max-width:900px; margin: 12px auto 0; opacity:.9;">ARPAPED combines an OS‑like desktop experience with a modular super‑app architecture. It works as a web app, a desktop layer, and can upgrade into a full lightweight OS. Key core capabilities:</p>
+  <div class="grid">
+    <div class="card">Universal WebOS — runs anywhere, instantly</div>
+    <div class="card">Seamless Desktop Experience — boot directly into ARPAPED</div>
+    <div class="card">Unified Identity & SSO Hub</div>
+    <div class="card">AI-powered Automation & Natural Language Commands</div>
+    <div class="card">Modular App Ecosystem — install only what you need</div>
+    <div class="card">Built-in Dev Console, SDK & Plugin Marketplace</div>
+    <div class="card">Blockchain-native Identity, Wallet & Secure Transactions</div>
+    <div class="card">High-performance Media, Gaming & Android App Layer</div>
+    <div class="card">Privacy-first Encrypted Vault & Data Sovereignty</div>
+    <div class="card">Offline-capable Sync & Local Node Support</div>
+    <div class="card">Enterprise Integrations & Admin Controls</div>
+    <div class="card">Extensible Automation (workflows, reminders, agents)</div>
+  </div>
+</section>
+
+<section>
+  <h2>A New Computing Era</h2>
+  <p>ARPAPED transcends apps and devices. A unified hyper-layer that works on any system — and can become your system. Cloud-native, AI-powered, Web3-secured.</p>
+</section>
+
+<section>
+  <h2>Capabilities</h2>
+  <div class="grid">
+    <div class="card">Universal WebOS — runs anywhere</div>
+    <div class="card">Browser, Desktop & Mobile Super-App</div>
+    <div class="card">Upgradeable to Full Physical OS</div>
+    <div class="card">Full Office Suite & Productivity Tools</div>
+    <div class="card">Cloud Storage, Sync, Personal Vault</div>
+    <div class="card">AI Chat, Agents, Automation & Natural Commands</div>
+    <div class="card">Messaging, Calls, Social & Collaboration Hub</div>
+    <div class="card">Gaming Layer & Android App Support</div>
+    <div class="card">Design Tools, Dev Console, Terminal, SDK</div>
+    <div class="card">Blockchain Identity, Crypto Wallet & Web3 Apps</div>
+    <div class="card">Marketplace, Commerce, Services & Booking</div>
+    <div class="card">Finance, Banking, Payments, Analytics</div>
+    <div class="card">Transport, Delivery & Real‑world Integrations</div>
+    <div class="card">Health, Learning & Personal Knowledge Cloud</div>
+    <div class="card">Smart Task System, Reminders & Workflows</div>
+  </div>
+</section>
+
+<section>
+  <h2>Vision & Manifesto</h2>
+  <p>We believe computing should be borderless. One identity. One platform. One digital universe where users own their data and developers build without friction. ARPAPED is built to erase the wall between apps, OS, cloud, and blockchain — and empower humans, not corporations.</p>
+</section>
+
+<section>
+  <h2>Designed for Everyone</h2>
+  <p>Creators, engineers, entrepreneurs, power users — and every human seeking one beautiful digital home.</p>
+</section>
+
+<footer>© 2025 ARPAPED — Future OS for Humanity</footer>
+
+</body>
+</html>
