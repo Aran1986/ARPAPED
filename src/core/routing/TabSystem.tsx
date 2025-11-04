@@ -17,7 +17,6 @@ export default function TabSystem() {
   
   return (
     <div className={styles.container}>
-      {/* Tab Bar */}
       <div className={styles.tabBar}>
         {tabs.map(tab => (
           <div
@@ -33,6 +32,7 @@ export default function TabSystem() {
                 e.stopPropagation();
                 closeTab(tab.id);
               }}
+              aria-label="بستن"
             >
               ✕
             </button>
@@ -40,7 +40,6 @@ export default function TabSystem() {
         ))}
       </div>
       
-      {/* Tab Content */}
       <div className={styles.content}>
         {tabs.map(tab => (
           <div
