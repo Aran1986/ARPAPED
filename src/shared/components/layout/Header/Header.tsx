@@ -163,14 +163,9 @@ export default function Header() {
             </button>
           </div>
         ) : (
-          <div className={styles.authButtons}>
-            <button onClick={handleLogin} className={styles.loginBtn}>
-              ورود
-            </button>
-            <button onClick={handleSignup} className={styles.signupBtn}>
-              ثبت‌نام
-            </button>
-          </div>
+          <a href="/landing" className={styles.landingLink}>
+            ورود / ثبت‌نام
+          </a>
         )}
       </div>
     </header>

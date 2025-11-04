@@ -14,6 +14,8 @@ export function useAuth() {
   const logout = () => {
     setUser(null);
     setWallet(null);
+    // Redirect to landing page
+    window.location.href = '/landing';
   };
   
   return {
