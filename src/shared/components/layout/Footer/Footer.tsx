@@ -2,11 +2,9 @@
 
 import styles from './Footer.module.css';
 import { useTab } from '@/shared/hooks/useTab';
-import { useAuth } from '@/shared/hooks/useAuth';
 
 export default function Footer() {
   const { openTab } = useTab();
-  const { user } = useAuth();
   
   const handleOpenTest = () => {
     openTab('test', 'تست', '🧪', (
@@ -19,11 +17,6 @@ export default function Footer() {
   
   const handleMessage = () => {
     alert('قابلیت پیام‌رسانی به زودی اضافه خواهد شد...');
-  };
-
-  const handleSignup = () => {
-    const { SignupModule } = require('@/modules/auth');
-    openTab('signup', 'ثبت‌نام', '📝', <SignupModule />);
   };
   
   return (
@@ -50,15 +43,6 @@ export default function Footer() {
       </div>
       
       <div className={styles.rightSection}>
-        {!user && (
-          <button 
-            className={styles.actionBtn} 
-            onClick={handleSignup}
-            title="ثبت‌نام"
-          >
-            📝
-          </button>
-        )}
         <button 
           className={styles.actionBtn} 
           onClick={handleOpenTest}

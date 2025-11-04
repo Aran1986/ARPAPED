@@ -88,7 +88,7 @@ function WebView({ url }: { url: string }) {
 }
 
 export default function Header() {
-  const { user, login, logout } = useAuth();
+  const { user, logout } = useAuth();
   const { openTab } = useTab();
   const [url, setUrl] = useState('');
   
@@ -97,12 +97,10 @@ export default function Header() {
     
     let finalUrl = url.trim();
     
-    // Add https if no protocol
     if (!finalUrl.startsWith('http://') && !finalUrl.startsWith('https://')) {
       finalUrl = 'https://' + finalUrl;
     }
     
-    // Extract display name
     const displayName = finalUrl
       .replace(/^https?:\/\/(www\.)?/, '')
       .split('/')[0]
@@ -122,6 +120,16 @@ export default function Header() {
     if (e.key === 'Enter') {
       handleNavigate();
     }
+  };
+
+  const handleLogin = () => {
+    const { LoginModule } = require('@/modules/auth');
+    openTab('login', 'ورود', '🔐', <LoginModule />);
+  };
+
+  const handleSignup = () => {
+    const { SignupModule } = require('@/modules/auth');
+    openTab('signup', 'ثبت‌نام', '📝', <SignupModule />);
   };
   
   return (
@@ -150,20 +158,19 @@ export default function Header() {
         {user ? (
           <div className={styles.userInfo}>
             <span className={styles.userName}>{user.name}</span>
-            <button onClick={logout} className={styles.btn}>
+            <button onClick={logout} className={styles.logoutBtn}>
               خروج
             </button>
           </div>
         ) : (
-          <button 
-            onClick={() => {
-              const { LoginModule } = require('@/modules/auth');
-              openTab('login', 'ورود', '🔐', <LoginModule />);
-            }} 
-            className={styles.btn}
-          >
-            ورود
-          </button>
+          <div className={styles.authButtons}>
+            <button onClick={handleLogin} className={styles.loginBtn}>
+              ورود
+            </button>
+            <button onClick={handleSignup} className={styles.signupBtn}>
+              ثبت‌نام
+            </button>
+          </div>
         )}
       </div>
     </header>
