@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import styles from './LoginModule.module.css';
 import { useStore } from '@/core/state/store';
-import SignupModule from '@/modules/auth/signup/components/SignupModule';
 
 export default function LoginModule() {
   const [email, setEmail] = useState('');
@@ -13,7 +12,6 @@ export default function LoginModule() {
   
   const setUser = useStore((state) => state.setUser);
   const removeTab = useStore((state) => state.removeTab);
-  const addTab = useStore((state) => state.addTab);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,7 +24,6 @@ export default function LoginModule() {
 
     setIsLoading(true);
 
-    // Simulate API call
     setTimeout(() => {
       setUser({
         id: Date.now().toString(),
@@ -38,20 +35,6 @@ export default function LoginModule() {
       removeTab('login');
       setIsLoading(false);
     }, 1000);
-  };
-
-  const handleSocialLogin = (provider: string) => {
-    alert(`ورود با ${provider} به زودی فعال می‌شود`);
-  };
-
-  const handleSignupClick = () => {
-    removeTab('login');
-    addTab({
-      id: 'signup',
-      title: 'ثبت‌نام',
-      icon: '✍️',
-      content: <SignupModule />
-    });
   };
 
   return (
@@ -101,48 +84,6 @@ export default function LoginModule() {
             {isLoading ? 'در حال ورود...' : 'ورود'}
           </button>
         </form>
-
-        <div className={styles.divider}>
-          <span>یا ورود با</span>
-        </div>
-
-        <div className={styles.socialButtons}>
-          <button
-            type="button"
-            className={styles.socialBtn}
-            onClick={() => handleSocialLogin('گوگل')}
-          >
-            <span>🔵</span>
-            گوگل
-          </button>
-          <button
-            type="button"
-            className={styles.socialBtn}
-            onClick={() => handleSocialLogin('توییتر')}
-          >
-            <span>🐦</span>
-            توییتر
-          </button>
-          <button
-            type="button"
-            className={styles.socialBtn}
-            onClick={() => handleSocialLogin('کیف پول')}
-          >
-            <span>👛</span>
-            کیف پول
-          </button>
-        </div>
-
-        <div className={styles.footer}>
-          <p>حساب کاربری ندارید؟</p>
-          <button
-            type="button"
-            onClick={handleSignupClick}
-            className={styles.signupLink}
-          >
-            ثبت‌نام کنید
-          </button>
-        </div>
       </div>
     </div>
   );
