@@ -2,48 +2,60 @@
 
 import { useState } from 'react';
 import styles from './SignupModule.module.css';
-import { useAuth } from '@/shared/hooks/useAuth';
+import { useStore } from '@/core/state/store';
 
 export default function SignupModule() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  });
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { setUser } = useAuth();
+  
+  const setUser = useStore((state) => state.setUser);
+  const removeTab = useStore((state) => state.removeTab);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    if (formData.password !== formData.confirmPassword) {
-      alert('رمز عبور و تکرار آن مطابقت ندارند');
+    setError('');
+
+    // Validation
+    if (!name || !email || !password || !confirmPassword) {
+      setError('لطفاً تمام فیلدها را پر کنید');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError('رمز عبور و تکرار آن مطابقت ندارند');
+      return;
+    }
+
+    if (password.length < 8) {
+      setError('رمز عبور باید حداقل ۸ کاراکتر باشد');
       return;
     }
 
     setIsLoading(true);
 
-    // شبیه‌سازی ثبت‌نام (فعلاً صوری)
+    // Simulate API call
     setTimeout(() => {
+      // Set user in store
       setUser({
         id: Date.now().toString(),
-        name: formData.name,
-        email: formData.email
+        name: name,
+        email: email,
+        avatar: '👤'
       });
+
+      // Close signup tab
+      removeTab('signup');
+      
       setIsLoading(false);
     }, 1000);
   };
 
   const handleSocialSignup = (provider: string) => {
-    alert(`ثبت‌نام با ${provider} به زودی فعال می‌شود...`);
+    alert(`ثبت‌نام با ${provider} به زودی فعال می‌شود`);
   };
 
   return (
@@ -55,16 +67,21 @@ export default function SignupModule() {
         </div>
 
         <form onSubmit={handleSubmit} className={styles.form}>
+          {error && (
+            <div className={styles.error}>
+              {error}
+            </div>
+          )}
+
           <div className={styles.inputGroup}>
             <label className={styles.label}>نام کامل</label>
             <input
               type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className={styles.input}
               placeholder="نام و نام خانوادگی"
-              required
+              disabled={isLoading}
             />
           </div>
 
@@ -72,12 +89,11 @@ export default function SignupModule() {
             <label className={styles.label}>ایمیل</label>
             <input
               type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className={styles.input}
               placeholder="example@email.com"
-              required
+              disabled={isLoading}
             />
           </div>
 
@@ -85,13 +101,11 @@ export default function SignupModule() {
             <label className={styles.label}>رمز عبور</label>
             <input
               type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className={styles.input}
               placeholder="حداقل ۸ کاراکتر"
-              minLength={8}
-              required
+              disabled={isLoading}
             />
           </div>
 
@@ -99,12 +113,11 @@ export default function SignupModule() {
             <label className={styles.label}>تکرار رمز عبور</label>
             <input
               type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               className={styles.input}
               placeholder="رمز عبور را دوباره وارد کنید"
-              required
+              disabled={isLoading}
             />
           </div>
 
@@ -123,6 +136,7 @@ export default function SignupModule() {
 
         <div className={styles.socialButtons}>
           <button
+            type="button"
             className={styles.socialBtn}
             onClick={() => handleSocialSignup('گوگل')}
           >
@@ -130,6 +144,7 @@ export default function SignupModule() {
             گوگل
           </button>
           <button
+            type="button"
             className={styles.socialBtn}
             onClick={() => handleSocialSignup('توییتر')}
           >
@@ -137,6 +152,7 @@ export default function SignupModule() {
             توییتر
           </button>
           <button
+            type="button"
             className={styles.socialBtn}
             onClick={() => handleSocialSignup('کیف پول')}
           >
