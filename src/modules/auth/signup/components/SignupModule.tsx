@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import styles from './SignupModule.module.css';
 import { useStore } from '@/core/state/store';
+import LoginModule from '@/modules/auth/login/components/LoginModule';
 
 export default function SignupModule() {
   const [name, setName] = useState('');
@@ -14,12 +15,12 @@ export default function SignupModule() {
   
   const setUser = useStore((state) => state.setUser);
   const removeTab = useStore((state) => state.removeTab);
+  const addTab = useStore((state) => state.addTab);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
 
-    // Validation
     if (!name || !email || !password || !confirmPassword) {
       setError('لطفاً تمام فیلدها را پر کنید');
       return;
@@ -37,9 +38,7 @@ export default function SignupModule() {
 
     setIsLoading(true);
 
-    // Simulate API call
     setTimeout(() => {
-      // Set user in store
       setUser({
         id: Date.now().toString(),
         name: name,
@@ -47,15 +46,23 @@ export default function SignupModule() {
         avatar: '👤'
       });
 
-      // Close signup tab
       removeTab('signup');
-      
       setIsLoading(false);
     }, 1000);
   };
 
   const handleSocialSignup = (provider: string) => {
     alert(`ثبت‌نام با ${provider} به زودی فعال می‌شود`);
+  };
+
+  const handleLoginClick = () => {
+    removeTab('signup');
+    addTab({
+      id: 'login',
+      title: 'ورود',
+      icon: '🔐',
+      content: <LoginModule />
+    });
   };
 
   return (
@@ -158,6 +165,17 @@ export default function SignupModule() {
           >
             <span>👛</span>
             کیف پول
+          </button>
+        </div>
+
+        <div className={styles.footer}>
+          <p>قبلاً ثبت‌نام کرده‌اید؟</p>
+          <button
+            type="button"
+            onClick={handleLoginClick}
+            className={styles.loginLink}
+          >
+            وارد شوید
           </button>
         </div>
       </div>

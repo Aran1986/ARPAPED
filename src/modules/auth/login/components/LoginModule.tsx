@@ -2,32 +2,56 @@
 
 import { useState } from 'react';
 import styles from './LoginModule.module.css';
-import { useAuth } from '@/shared/hooks/useAuth';
+import { useStore } from '@/core/state/store';
+import SignupModule from '@/modules/auth/signup/components/SignupModule';
 
 export default function LoginModule() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { setUser } = useAuth();
+  
+  const setUser = useStore((state) => state.setUser);
+  const removeTab = useStore((state) => state.removeTab);
+  const addTab = useStore((state) => state.addTab);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError('');
+
+    if (!email || !password) {
+      setError('لطفاً ایمیل و رمز عبور را وارد کنید');
+      return;
+    }
+
     setIsLoading(true);
 
-    // شبیه‌سازی ورود (فعلاً صوری)
+    // Simulate API call
     setTimeout(() => {
       setUser({
-        id: '1',
-        name: email.split('@')[0],
-        email: email
+        id: Date.now().toString(),
+        name: 'کاربر آزمایشی',
+        email: email,
+        avatar: '👤'
       });
+
+      removeTab('login');
       setIsLoading(false);
     }, 1000);
   };
 
   const handleSocialLogin = (provider: string) => {
-    // فعلاً صوری
-    alert(`ورود با ${provider} به زودی فعال می‌شود...`);
+    alert(`ورود با ${provider} به زودی فعال می‌شود`);
+  };
+
+  const handleSignupClick = () => {
+    removeTab('login');
+    addTab({
+      id: 'signup',
+      title: 'ثبت‌نام',
+      icon: '✍️',
+      content: <SignupModule />
+    });
   };
 
   return (
@@ -35,10 +59,16 @@ export default function LoginModule() {
       <div className={styles.card}>
         <div className={styles.header}>
           <h2 className={styles.title}>ورود به آرپاپد</h2>
-          <p className={styles.subtitle}>به اکوسیستم خود خوش آمدید</p>
+          <p className={styles.subtitle}>به حساب کاربری خود وارد شوید</p>
         </div>
 
         <form onSubmit={handleSubmit} className={styles.form}>
+          {error && (
+            <div className={styles.error}>
+              {error}
+            </div>
+          )}
+
           <div className={styles.inputGroup}>
             <label className={styles.label}>ایمیل</label>
             <input
@@ -47,7 +77,7 @@ export default function LoginModule() {
               onChange={(e) => setEmail(e.target.value)}
               className={styles.input}
               placeholder="example@email.com"
-              required
+              disabled={isLoading}
             />
           </div>
 
@@ -58,8 +88,8 @@ export default function LoginModule() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className={styles.input}
-              placeholder="••••••••"
-              required
+              placeholder="رمز عبور خود را وارد کنید"
+              disabled={isLoading}
             />
           </div>
 
@@ -78,6 +108,7 @@ export default function LoginModule() {
 
         <div className={styles.socialButtons}>
           <button
+            type="button"
             className={styles.socialBtn}
             onClick={() => handleSocialLogin('گوگل')}
           >
@@ -85,6 +116,7 @@ export default function LoginModule() {
             گوگل
           </button>
           <button
+            type="button"
             className={styles.socialBtn}
             onClick={() => handleSocialLogin('توییتر')}
           >
@@ -92,11 +124,23 @@ export default function LoginModule() {
             توییتر
           </button>
           <button
+            type="button"
             className={styles.socialBtn}
             onClick={() => handleSocialLogin('کیف پول')}
           >
             <span>👛</span>
             کیف پول
+          </button>
+        </div>
+
+        <div className={styles.footer}>
+          <p>حساب کاربری ندارید؟</p>
+          <button
+            type="button"
+            onClick={handleSignupClick}
+            className={styles.signupLink}
+          >
+            ثبت‌نام کنید
           </button>
         </div>
       </div>
