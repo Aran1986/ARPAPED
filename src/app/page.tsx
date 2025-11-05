@@ -12,20 +12,11 @@ export default function RootPage() {
     if (isAuthenticated) {
       router.push('/app');
     } else {
-      router.push('/landing');
+      router.push('/landing.html');
     }
   }, [isAuthenticated, router]);
 
-  return (
-    <div style={{ 
-      display: 'flex', 
-      alignItems: 'center', 
-      justifyContent: 'center', 
-      height: '100vh' 
-    }}>
-      <div style={{ fontSize: '2rem' }}>در حال بارگذاری...</div>
-    </div>
-  );
+  return null;
 }
 
 // Location: src/app/page.tsx
